@@ -127,3 +127,90 @@ WHERE COMMISSION NOT IN (300, 500, 1400);
 --  % : 키워드를 제외한 문자들
 SELECT * FROM EMPLOYEE
 WHERE ENAME LIKE 'F%';
+
+-- 연습 4) 이름에 'M' 이 포함되어 있는 사원 조회하기(전체 조회)
+-- 사원 : EMPLOYEE
+-- 사원명 컬럼 : ENAME
+-- 결과 : 5건
+SELECT * FROM EMPLOYEE
+WHERE ENAME LIKE '%M%';
+
+-- 연습 5) 이름이 'N' 으로 끝나는 사원 조회하기(전체 조회)
+-- 사원 : EMPLOYEE
+-- 사원명 컬럼 : ENAME
+-- 결과 : 2건
+SELECT * FROM EMPLOYEE
+WHERE ENAME LIKE '%N';
+
+-- 예제 13) 이름의 두번째 글짜가 'A' 인 사원 조회하기
+-- LIKE 기호 : %(키워드를 제외한 어떤 문자열을 의미) 
+--            _ (키워드를 제외한 어떤 1문자를 의미)
+-- 사원 : EMPLOYEE
+-- 사원명 컬럼 : ENAME
+SELECT * FROM EMPLOYEE
+WHERE ENAME LIKE '_A%';
+
+-- 연습 6) 이름의 세번째 글짜가 'A' 인 사원 조회하기
+-- 사원 : EMPLOYEE
+-- 사원명 컬럼 : ENAME
+SELECT * FROM EMPLOYEE
+WHERE ENAME LIKE '__A%';
+
+-- 예제 14) IN, BETWEEN 의 반대를 나타낼때 NOT 앞에 붙여서 사용햇음
+-- LIKE 의 반대를 나타낼때 똑같이 사용할 수 있음 : NOT LIKE
+-- 이름에 'A' 가 포함되지 않는 사원을 조회하세요
+-- 사원 : EMPLOYEE
+-- 사원명 컬럼 : ENAME
+SELECT * FROM EMPLOYEE
+WHERE ENAME NOT LIKE '%A%';
+
+-- 6) NULL 검색(조회)
+-- 예제 15) 상여금(COMMISSION) 이 NULL 인 사원을 조회하세요.
+-- NULL 의 특징 : 연산/비교 모든것이 안됨 -> 결과는 NULL
+-- 예약어 : NULL 조회시 : WHERE 컬럼명 IS NULL;
+-- 사원 : EMPLOYEE
+SELECT * FROM EMPLOYEE
+WHERE COMMISSION = NULL; -- 안됨(오류)
+-- 수정
+SELECT * FROM EMPLOYEE
+WHERE COMMISSION IS NULL; -- 정상
+
+-- IN, BETWEEN, LIKE 의 반대는 앞에 NOT 
+-- IS NOT NULL 있음 ( NULL 값을 가지지 않은 사람 )
+-- 상여금에(COMMISSION) NULL 이 아닌 사람을 조회하세요
+SELECT * FROM EMPLOYEE
+WHERE COMMISSION IS NOT NULL;
+
+-- 7) ORDER BY : 정렬 기능
+-- 예제 16) 사원테이블을(EMPLOYEE) 오름차순으로 정렬하기
+-- 단 , 월급으로(SALARY) 정렬하세요
+-- 오름차순(ASCENDING) : 작은 순부터 큰순으로 정렬
+-- 사용법) SELECT 컬럼명 FROM 테이블명 ORDER BY 정렬대상_컬럼명 ASC; -- ASC(생략가능)
+-- 참고) 이 기능을 사용하면 성능이 대폭 저하
+SELECT * FROM EMPLOYEE
+ORDER BY SALARY ASC; -- ASC(오름차순, 생략가능)
+
+-- 사원테이블을(EMPLOYEE) 내림차순으로 정렬하기
+-- 단 , 월급으로(SALARY) 정렬하세요
+-- 내림차순(DESCENDING) : 큰 순부터 작은순으로 정렬
+-- 사용법) SELECT 컬럼명 FROM 테이블명 ORDER BY 정렬대상_컬럼명 DESC; -- DESC(생략불가)
+SELECT * FROM EMPLOYEE
+ORDER BY SALARY DESC; -- DESC(내림차순)
+
+-- 연습 7) 사원 테이블에서(EMPLOYEE) 사원명으로(ENAME) 오름차순 정렬해서 조회하세요
+-- 사원 : EMPLOYEE
+SELECT * FROM EMPLOYEE
+ORDER BY ENAME;
+
+-- 연습 8) 입사일(HIREDATE) 데이터로 내림차순 정렬하세요
+-- 사원 : EMPLOYEE
+SELECT * FROM EMPLOYEE
+ORDER BY HIREDATE DESC;
+
+-- 연습 9) 사원테이블에서(EMPLOYEE) 급여는(SALARY) 내림차순으로 정렬하고,
+--        사원명은(ENAME) 오름차순으로 정렬하세요
+-- 의미) ORDER BY 컬럼명 (먼저 정렬되고), 
+--      컬럼명2(1ST 정렬된 조건에서 중복된 데이터에 한해 정렬을 실행)
+-- 힌트) ORDER BY 컬럼명 DESC[ASC], 컬럼명2 DESC[ASC], .....
+SELECT * FROM EMPLOYEE
+ORDER BY SALARY DESC, ENAME;
