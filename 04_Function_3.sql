@@ -36,3 +36,67 @@ SELECT ENAME, SALARY
       ,TO_CHAR(SALARY, 'L999,999')
       ,TO_CHAR(SALARY, 'L000,000')
 FROM EMPLOYEE;
+
+-- 3) TO_DATE(문자[숫자], 날짜포맷) : 문자[숫자] -> 날짜형으로 바꾸어 주는 함수
+-- HIREDATE 컬럼 : 날짜형
+SELECT ENAME, HIREDATE
+FROM EMPLOYEE
+--WHERE HIREDATE = '19810220'; -- 자동 자료형 변환(내부적으로 문자 -> 날짜형으로 바뀜)
+WHERE HIREDATE = TO_DATE('19810220', 'YYYYMMDD');
+
+-- 4) TO_NUMBER(문자, 숫자포맷) : 문자 -> 숫자로 변환하는 함수
+-- 예제 4) 숫자 형태의 문자(통화) 빼기
+SELECT TO_NUMBER('100,000','999,999') - TO_NUMBER('50,000','999,999') 
+FROM DUAL;
+
+-- 일반 함수들
+-- 1) NVL : NULL -> 숫자[문자]로 변경하는 함수
+-- 상여금 컬럼 : COMMISSION (NULL 포함됨)
+-- NULL 은 산술연산이 안됨 
+SELECT ENAME, SALARY, COMMISSION
+      ,NVL(COMMISSION, 0)
+      ,SALARY*12+NVL(COMMISSION, 0)
+FROM EMPLOYEE
+ORDER BY JOB;
+
+-- 2) DECODE 함수 : SQL 에서 조건문을 표시하는 함수
+-- DECODE 로 부서이름 출력하기
+-- 사원명   : ENAME
+-- 부서번호 : DNO
+-- 사용법) DECODE(DNO, 조건1, 결과1
+--                 , 조건2, 결과2
+--                 ...
+--                 ,기본결과)
+-- 설명) DNO 컬럼에 대해 조건1이 참이면 결과1이 출력되고
+--                     조건2가 참이면 결과2가 출력되고
+--                     모두 거짓이면 기본결과가 출력됨
+SELECT ENAME, DNO
+      ,DECODE(DNO, 10, '회계부'
+                 , 20, '연구소'
+                 , 30, '판매부'
+                 , 40, '운영부'
+                 ,'디폴트') AS 부서명
+FROM EMPLOYEE
+ORDER BY DNO;
+
+-- DECODE 업그레이드 사용법) CASE WHEN (결과는 같음)
+-- 사용법) CASE WHEN 조건식1 THEN '결과1'
+--             WHEN 조건식2 THEN '결과2'
+--             ...
+--             ELSE '기본결과'
+--        END
+SELECT ENAME, DNO
+      ,CASE WHEN DNO=10 THEN '회계부'
+           WHEN DNO=20 THEN '연구소'
+           WHEN DNO=30 THEN '판매부'
+           WHEN DNO=40 THEN '운영부'
+           ELSE '디폴트'
+       END AS 부서명
+FROM EMPLOYEE
+ORDER BY DNO;
+
+
+
+
+
+
