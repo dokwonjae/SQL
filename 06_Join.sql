@@ -79,3 +79,31 @@ SELECT EMP.ENAME
 FROM EMPLOYEE EMP
     ,EMPLOYEE MAN
 WHERE EMP.MANAGER = MAN.MANAGER(+);
+
+-- 3) SQL-99 표준 표기법 : 오라클 DB/MySQL DB 등에서 지원함
+-- 전세계 SQL(질의어) 표준 : ANSI SQL(표준 기구) 
+-- 예제 1) 사원 x 부서 조인 : SQL-99 표기법
+-- 오라클 조인
+SELECT ENO, DNAME, EMP.DNO, DEP.DNO
+FROM EMPLOYEE EMP
+    ,DEPARTMENT DEP
+WHERE EMP.DNO = DEP.DNO;
+
+-- SQL-99 표기법 : DB 상에 100% 호환됨
+-- 사용법) SELECT 별칭1.컬럼명, 별칭2.컬럼명
+--        FROM 테이블명1 별칭1 JOIN 테이블명2 별칭2 ON(별칭1.공통컬럼 = 별칭2.공통컬럼);
+SELECT ENO, DNAME, EMP.DNO, DEP.DNO
+FROM EMPLOYEE EMP JOIN DEPARTMENT DEP ON(EMP.DNO = DEP.DNO);
+
+-- 레프트(LEFT) 아우터 조인 : 오라클
+-- WHREE 절에 (+) 없는쪽을 기준으로 명칭을 부여함 : 왼쪽 외부 조인(Left Outer Join)
+SELECT EMP.ENAME
+      ,MAN.ENAME AS MANAGER
+FROM EMPLOYEE EMP
+    ,EMPLOYEE MAN
+WHERE EMP.MANAGER = MAN.MANAGER(+);
+
+-- SQL-99 표기법 : DB 상에 100% 호환됨
+SELECT EMP.ENAME
+      ,MAN.ENAME AS MANAGER
+FROM EMPLOYEE EMP LEFT OUTER JOIN EMPLOYEE MAN ON(EMP.MANAGER = MAN.MANAGER);
